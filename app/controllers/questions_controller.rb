@@ -3,7 +3,8 @@ class QuestionsController < ApplicationController
   before_action :find_question!, only: %i[show edit update destroy]
 
   def index
-    @questions = Question.order(created_at: :desc).page params[:page]
+    @pagy, @questions = pagy(Question.order(created_at: :desc), items: 10)
+    # @questions = Question.order(created_at: :desc).page params[:page] kaminary variation
   end
 
   def new
@@ -12,7 +13,8 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.build
-    @answers = @question.answers.order(created_at: :desc).page(params[:page]).per(5)
+    # @answers = @question.answers.order(created_at: :desc).page(params[:page]).per(5) kaminary variation
+    @pagy, @answers =  pagy(@question.answers.order(created_at: :desc), items: 5)
   end
 
   def create
