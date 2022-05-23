@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
 
   def index
     @pagy, @questions = pagy(Question.order(created_at: :desc), items: 10)
+    @questions = @questions.decorate
     # @questions = Question.order(created_at: :desc).page params[:page] kaminary variation
   end
 
@@ -12,9 +13,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @question = @question.decorate
     @answer = @question.answers.build
     # @answers = @question.answers.order(created_at: :desc).page(params[:page]).per(5) kaminary variation
     @pagy, @answers =  pagy(@question.answers.order(created_at: :desc), items: 5)
+    @answers = @answers.decorate
   end
 
   def create
