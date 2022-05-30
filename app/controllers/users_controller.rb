@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :require_no_auth, only: %i[new create]
   before_action :require_auth, only: %i[edit update]
@@ -23,7 +25,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      flash[:success] = "You successfully updated!"
+      flash[:success] = 'You successfully updated!'
       redirect_to edit_user_path(@user)
     else
       render :new
@@ -39,5 +41,4 @@ class UsersController < ApplicationController
   def set_user!
     @user = User.find(params[:id])
   end
-
 end

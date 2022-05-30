@@ -1,5 +1,6 @@
-class QuestionsController < ApplicationController
+# frozen_string_literal: true
 
+class QuestionsController < ApplicationController
   before_action :find_question!, only: %i[show edit update destroy]
 
   def index
@@ -16,27 +17,25 @@ class QuestionsController < ApplicationController
     @question = @question.decorate
     @answer = @question.answers.build
     # @answers = @question.answers.order(created_at: :desc).page(params[:page]).per(5) kaminary variation
-    @pagy, @answers =  pagy(@question.answers.order(created_at: :desc), items: 5)
+    @pagy, @answers = pagy(@question.answers.order(created_at: :desc), items: 5)
     @answers = @answers.decorate
   end
 
   def create
     @question = Question.new(question_params)
     if @question.save
-      flash[:success] = "Question created!"
+      flash[:success] = 'Question created!'
       redirect_to question_path(@question)
     else
       render :new
     end
   end
 
-  def edit
-
-  end
+  def edit; end
 
   def update
     if @question.update(question_params)
-      flash[:success] = "Question updated!"
+      flash[:success] = 'Question updated!'
       redirect_to question_path(@question)
     else
       render :edit
@@ -45,9 +44,10 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    flash[:success] = "Question deleted!"
+    flash[:success] = 'Question deleted!'
     redirect_to questions_path
   end
+
   private
 
   def question_params
